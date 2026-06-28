@@ -143,11 +143,11 @@ struct SettingsView: View {
                 Section(header: Label("Skit Mode", systemImage: "eye.slash"),
                         footer: Text("Haptic confirmation, a physical volume-button trigger, and auto-start for hands-free use.")) {
                     Toggle("Haptic Feedback", isOn: $hapticFeedback)
-                        .onChange(of: hapticFeedback) { appSettings.hapticFeedback = hapticFeedback }
+                        .onChange(of: hapticFeedback) { newValue in appSettings.hapticFeedback = newValue }
                     Toggle("Volume Button Trigger", isOn: $volumeButtonTrigger)
-                        .onChange(of: volumeButtonTrigger) { appSettings.volumeButtonTrigger = volumeButtonTrigger }
+                        .onChange(of: volumeButtonTrigger) { newValue in appSettings.volumeButtonTrigger = newValue }
                     Toggle("Auto-Start on Launch", isOn: $autoStart)
-                        .onChange(of: autoStart) { appSettings.autoStart = autoStart }
+                        .onChange(of: autoStart) { newValue in appSettings.autoStart = newValue }
                 }
                 
                 Section(header: Label("Links", systemImage: "link"), footer: Text("A few links to my socials to contact me if you need help (Forked from c22dev).")) {
