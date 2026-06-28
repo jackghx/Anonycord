@@ -4,6 +4,9 @@
 //
 //  Created by Constantin Clerc on 7/8/24.
 //
+// Forked by Jack Ghafari on 29/06/26
+//
+
 
 import SwiftUI
 
@@ -13,6 +16,9 @@ struct SettingsView: View {
     @Environment(\.openURL) var openURL
     
     @State private var micSplRateStr: String
+    @State private var hapticFeedback: Bool
+    @State private var volumeButtonTrigger: Bool
+    @State private var autoStart: Bool
     @State private var channelDefStr: String
     @State private var cameraType: String
     @State private var videoQuality: String
@@ -34,6 +40,9 @@ struct SettingsView: View {
         _exitAtEnd = State(initialValue: AppSettings().crashAtEnd)
         _infoAtBttm = State(initialValue: AppSettings().showSettingsAtBttm)
         _hideAll = State(initialValue: AppSettings().hideAll)
+        _hapticFeedback = State(initialValue: AppSettings().hapticFeedback)
+        _volumeButtonTrigger = State(initialValue: AppSettings().volumeButtonTrigger)
+        _autoStart = State(initialValue: AppSettings().autoStart)
     }
 
     var body: some View {
@@ -96,6 +105,7 @@ struct SettingsView: View {
                         appSettings.cameraType = cameraType
                         DispatchQueue.main.async {
                             mediaRecorder.reconfigureCaptureSession()
+                            
                         }
                     }
                     .onAppear {
@@ -129,15 +139,26 @@ struct SettingsView: View {
                         appSettings.showSettingsAtBttm = infoAtBttm
                     }
                 }
-                Section(header: Label("Links", systemImage: "link"), footer: Text("A few links to my socials to contact me if you need help.")) {
+
+                Section(header: Label("Skit Mode", systemImage: "eye.slash"),
+                        footer: Text("Haptic confirmation, a physical volume-button trigger, and auto-start for hands-free use.")) {
+                    Toggle("Haptic Feedback", isOn: $hapticFeedback)
+                        .onChange(of: hapticFeedback) { appSettings.hapticFeedback = hapticFeedback }
+                    Toggle("Volume Button Trigger", isOn: $volumeButtonTrigger)
+                        .onChange(of: volumeButtonTrigger) { appSettings.volumeButtonTrigger = volumeButtonTrigger }
+                    Toggle("Auto-Start on Launch", isOn: $autoStart)
+                        .onChange(of: autoStart) { appSettings.autoStart = autoStart }
+                }
+                
+                Section(header: Label("Links", systemImage: "link"), footer: Text("A few links to my socials to contact me if you need help (Forked from c22dev).")) {
                     Button("Github") {
-                        openURL(URL(string: "https://github.com/c22dev/Anonycord")!)
+                        openURL(URL(string: "https://github.com/jackghx/Anonycord")!)
                     }
                     Button("Discord") {
-                        openURL(URL(string: "https://discord.com/users/614377175608459264")!)
+                        openURL(URL(string: "N/A")!)
                     }
                     Button("Website") {
-                        openURL(URL(string: "https://cclerc.ch")!)
+                        openURL(URL(string: "https://jackghx.com")!)
                     }
                 }
             }
