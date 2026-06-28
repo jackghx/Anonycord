@@ -116,6 +116,27 @@ struct ContentView: View {
                         .foregroundColor(.secondary)
                 }
             }
+
+            if appSettings.blackoutMode {
+                Color.black
+                    .edgesIgnoringSafeArea(.all)
+                    .contentShape(Rectangle())
+                    .gesture(
+                        ExclusiveGesture(
+                            LongPressGesture(minimumDuration: 1.2)
+                                .onEnded { _ in
+                                    if !isRecordingVideo && !isRecordingAudio {
+                                        showingSettings = true
+                                    }
+                                },
+                            TapGesture()
+                                .onEnded {
+                                    toggleVideoRecording()
+                                }
+                        )
+                    )
+            }
+            
         }
         .onAppear(perform: setup)
     }
