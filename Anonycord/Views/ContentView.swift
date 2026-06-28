@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var showingFilePicker = false
     @State private var boxSize: CGFloat = UIScreen.main.bounds.width - 60
     @StateObject private var mediaRecorder = MediaRecorder()
+    @StateObject private var volumeListener = VolumeButtonListener()
     @State private var inBeta = true
     
     var body: some View {
@@ -122,6 +123,40 @@ struct ContentView: View {
     private func setup() {
         mediaRecorder.requestPermissions()
         mediaRecorder.setupCaptureSession()
+    
+        if appSettings.volumeButtonTrigger {
+            volumeListener.onPress = {
+                if !isRecordingAudio { toggleVideoRecording() }
+            }
+            volumeListener.startListening()
+        }
+
+    private func toggleVideoRecording() {
+        if isRecordingVideo {
+            mediaRecorder.stopVideoRecording()
+            UIApplication.shared.isIdleTimerDisabled = false
+            if appSettings.hapticFeedback { Haptic.recordingStopped() }
+        } else {
+            UIApplication.shared.isIdleTimerDisabled = true
+            if appSettings.hapticFeedback { Haptic.recordingStarted() }
+            mediaRecorder.startVideoRecording { url in
+                if let url = url {
+                    mediaRecorder.saveVideoToLibrary(videoURL: url)
+                }
+                isRecordingVideo = false
+            }
+        }
+        isRecordingVideo.toggle()
+    }
+
+        
+        if appSettings.autoStart {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(appSettings.autoStartDelay)) {
+                if !isRecordingVideo && !isRecordingAudio {
+                    toggleVideoRecording()
+                }
+            }
+        }
     }
     
     private func toggleVideoRecording() {
