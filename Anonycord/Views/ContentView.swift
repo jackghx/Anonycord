@@ -157,3 +157,28 @@ struct ContentView: View {
             }
             isRecordingVideo.toggle()
         }
+
+        private func toggleAudioRecording() {
+                if isRecordingAudio {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                    mediaRecorder.stopAudioRecording()
+                    if appSettings.hapticFeedback { Haptic.recordingStopped() }
+                } else {
+                    UIApplication.shared.isIdleTimerDisabled = true
+                    if appSettings.hapticFeedback { Haptic.recordingStarted() }
+                    mediaRecorder.startAudioRecording()
+                }
+                isRecordingAudio.toggle()
+            }
+        
+            private func takePhoto() {
+                mediaRecorder.takePhoto()
+            }
+        }
+        
+        struct ContentView_Previews: PreviewProvider {
+            static var previews: some View {
+                ContentView()
+                    .environmentObject(AppSettings())
+            }
+        }
