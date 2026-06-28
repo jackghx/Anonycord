@@ -20,6 +20,7 @@ struct SettingsView: View {
     @State private var volumeButtonTrigger: Bool
     @State private var autoStart: Bool
     @State private var channelDefStr: String
+    @State private var blackoutMode: Bool
     @State private var cameraType: String
     @State private var videoQuality: String
     @State private var exitAtEnd: Bool
@@ -43,6 +44,7 @@ struct SettingsView: View {
         _hapticFeedback = State(initialValue: AppSettings().hapticFeedback)
         _volumeButtonTrigger = State(initialValue: AppSettings().volumeButtonTrigger)
         _autoStart = State(initialValue: AppSettings().autoStart)
+        _blackoutMode = State(initialValue: AppSettings().blackoutMode)
     }
 
     var body: some View {
@@ -148,6 +150,8 @@ struct SettingsView: View {
                         .onChange(of: volumeButtonTrigger) { newValue in appSettings.volumeButtonTrigger = newValue }
                     Toggle("Auto-Start on Launch", isOn: $autoStart)
                         .onChange(of: autoStart) { newValue in appSettings.autoStart = newValue }
+                    Toggle("Blackout (tap anywhere to record)", isOn: $blackoutMode)
+                        .onChange(of: blackoutMode) { newValue in appSettings.blackoutMode = newValue }
                 }
                 
                 Section(header: Label("Links", systemImage: "link"), footer: Text("A few links to my socials to contact me if you need help (Forked from c22dev).")) {
