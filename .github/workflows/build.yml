@@ -11,22 +11,25 @@ jobs:
     runs-on: macos-14
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@v4 
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+      - name: Show Xcode version
+        run: xcodebuild -version
       - name: Build archive (unsigned)
         run: |
+          set -o pipefail
           xcodebuild \
             -project Anonycord.xcodeproj \
             -scheme Anonycord \
             -configuration Release \
-            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             -archivePath build/Anonycord.xcarchive \
-            archive \
+            clean archive \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            DEVELOPMENT_TEAM="" \
-            | xcpretty || true
+            DEVELOPMENT_TEAM=""
 
       - name: Package IPA
         run: |
