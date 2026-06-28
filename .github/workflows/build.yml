@@ -1,0 +1,53 @@
+name: Build unsigned IPA
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build archive (unsigned)
+        run: |
+          xcodebuild \
+            -project Anonycord.xcodeproj \
+            -scheme Anonycord \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath build/Anonycord.xcarchive \
+            archive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            DEVELOPMENT_TEAM="" \
+            | xcpretty || true
+
+      - name: Package IPA
+        run: |
+          APP_PATH="build/Anonycord.xcarchive/Products/Applications/Anonycord.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "::error::App not found at $APP_PATH - archive step failed"
+            exit 1
+          fi
+          mkdir -p Payload
+          cp -r "$APP_PATH" Payload/
+          zip -qr Anonycord.ipa Payload
+          echo "Built $(du -h Anonycord.ipa | cut -f1) IPA"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Anonycord-unsigned-ipa
+          path: Anonycord.ipa
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Anonycord.ipa
