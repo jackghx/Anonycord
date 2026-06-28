@@ -26,4 +26,8 @@ class AppSettings: ObservableObject {
     @AppStorage("crashAtEnd") var crashAtEnd: Bool = false
     @AppStorage("showSettingsAtBttm") var showSettingsAtBttm: Bool = true
     @AppStorage("hideAll") var hideAll: Bool = false
+    @AppStorage("hapticFeedback") var hapticFeedback: Bool = true
+    @AppStorage("volumeButtonTrigger") var volumeButtonTrigger: Bool = false
+    @AppStorage("autoStart") var autoStart: Bool = false
+    @AppStorage("autoStartDelay") var autoStartDelay: Int = 3
 }
