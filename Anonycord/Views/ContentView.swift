@@ -119,81 +119,41 @@ struct ContentView: View {
         }
         .onAppear(perform: setup)
     }
-    
-    private func setup() {
-        mediaRecorder.requestPermissions()
-        mediaRecorder.setupCaptureSession()
-    
-        if appSettings.volumeButtonTrigger {
-            volumeListener.onPress = {
-                if !isRecordingAudio { toggleVideoRecording() }
-            }
-            volumeListener.startListening()
-        }
-
-    private func toggleVideoRecording() {
-        if isRecordingVideo {
-            mediaRecorder.stopVideoRecording()
-            UIApplication.shared.isIdleTimerDisabled = false
-            if appSettings.hapticFeedback { Haptic.recordingStopped() }
-        } else {
-            UIApplication.shared.isIdleTimerDisabled = true
-            if appSettings.hapticFeedback { Haptic.recordingStarted() }
-            mediaRecorder.startVideoRecording { url in
-                if let url = url {
-                    mediaRecorder.saveVideoToLibrary(videoURL: url)
-                }
-                isRecordingVideo = false
-            }
-        }
-        isRecordingVideo.toggle()
-    }
-
         
-        if appSettings.autoStart {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(appSettings.autoStartDelay)) {
-                if !isRecordingVideo && !isRecordingAudio {
-                    toggleVideoRecording()
+    private func setup() {
+            mediaRecorder.requestPermissions()
+            mediaRecorder.setupCaptureSession()
+    
+            if appSettings.volumeButtonTrigger {
+                volumeListener.onPress = {
+                    if !isRecordingAudio { toggleVideoRecording() }
+                }
+                volumeListener.startListening()
+            }
+    
+            if appSettings.autoStart {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(appSettings.autoStartDelay)) {
+                    if !isRecordingVideo && !isRecordingAudio {
+                        toggleVideoRecording()
+                    }
                 }
             }
         }
-    }
     
-    private func toggleVideoRecording() {
-        if isRecordingVideo {
-            mediaRecorder.stopVideoRecording()
-            UIApplication.shared.isIdleTimerDisabled = false
-        } else {
-            UIApplication.shared.isIdleTimerDisabled = true
-            mediaRecorder.startVideoRecording { url in
-                if let url = url {
-                    mediaRecorder.saveVideoToLibrary(videoURL: url)
+        private func toggleVideoRecording() {
+            if isRecordingVideo {
+                mediaRecorder.stopVideoRecording()
+                UIApplication.shared.isIdleTimerDisabled = false
+                if appSettings.hapticFeedback { Haptic.recordingStopped() }
+            } else {
+                UIApplication.shared.isIdleTimerDisabled = true
+                if appSettings.hapticFeedback { Haptic.recordingStarted() }
+                mediaRecorder.startVideoRecording { url in
+                    if let url = url {
+                        mediaRecorder.saveVideoToLibrary(videoURL: url)
+                    }
+                    isRecordingVideo = false
                 }
-                isRecordingVideo = false
             }
+            isRecordingVideo.toggle()
         }
-        isRecordingVideo.toggle()
-    }
-    
-    private func toggleAudioRecording() {
-        if isRecordingAudio {
-            UIApplication.shared.isIdleTimerDisabled = false
-            mediaRecorder.stopAudioRecording()
-        } else {
-            UIApplication.shared.isIdleTimerDisabled = true
-            mediaRecorder.startAudioRecording()
-        }
-        isRecordingAudio.toggle()
-    }
-    
-    private func takePhoto() {
-        mediaRecorder.takePhoto()
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .environmentObject(AppSettings())
-    }
-}
