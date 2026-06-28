@@ -109,3 +109,20 @@ extension UIApplication {
 }
 
 let impact = UIImpactFeedbackGenerator(style: .light)
+
+enum Haptic {
+        static func recordingStarted() {
+                    let gen = UIImpactFeedbackGenerator(style: .heavy)
+                    gen.prepare()
+                    gen.impactOccurred()
+        }
+
+        static func recordingStopped() {
+                    let gen = UIImpactFeedbackGenerator(style: .heavy)
+                    gen.prepare()
+                    gen.impactOccurred()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.14) {
+                                    gen.impactOccurred()
+                    }
+        }
+}
