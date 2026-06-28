@@ -4,6 +4,8 @@
 //
 //  Created by Constantin Clerc on 7/8/24.
 //
+// Forked by Jack Ghafari on 29/06/26
+//
 
 import SwiftUI
 
@@ -30,4 +32,5 @@ class AppSettings: ObservableObject {
     @AppStorage("volumeButtonTrigger") var volumeButtonTrigger: Bool = false
     @AppStorage("autoStart") var autoStart: Bool = false
     @AppStorage("autoStartDelay") var autoStartDelay: Int = 3
+    @AppStorage("blackoutMode") var blackoutMode: Bool = false
 }
