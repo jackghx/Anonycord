@@ -108,6 +108,17 @@ extension UIApplication {
     }
 }
 
+extension View {
+    @ViewBuilder
+    func hideSystemOverlays(_ hidden: Bool) -> some View {
+        if #available(iOS 16.0, *) {
+            self.persistentSystemOverlays(hidden ? .hidden : .automatic)
+        } else {
+            self
+        }
+    }
+}
+
 let impact = UIImpactFeedbackGenerator(style: .light)
 
 enum Haptic {
