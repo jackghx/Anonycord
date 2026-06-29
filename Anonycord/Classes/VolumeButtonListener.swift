@@ -33,14 +33,13 @@ class VolumeButtonListener: NSObject, ObservableObject {
                 self.ignoreNextChange = false
                 return
             }
-            self.onPress?()
             // reset toward the middle so repeated presses keep registering
             self.ignoreNextChange = true
             self.setSystemVolume(self.baseline)
             DispatchQueue.main.async {
                 self.onPress?()
+            }
         }
-    }
 
     func stopListening() {
         observation?.invalidate()
