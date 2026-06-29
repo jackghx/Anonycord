@@ -254,6 +254,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is necessary to record videos";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone is required to record audio";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Face ID protects your private vault recordings";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo access is required to save your video recordings";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app needs access to your photo library to save recordings";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -290,6 +291,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is necessary to record videos";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone is required to record audio";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Face ID protects your private vault recordings";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo access is required to save your video recordings";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "The app needs access to your photo library to save recordings";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
