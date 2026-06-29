@@ -79,6 +79,7 @@ class DualCameraRecorder: NSObject, ObservableObject, AVCaptureFileOutputRecordi
     }
 
     func startRecording() {
+        try? AVAudioSession.sharedInstance().setAllowHapticsAndSystemSoundsDuringRecording(true)
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let backURL = dir.appendingPathComponent("back.mov")
         let frontURL = dir.appendingPathComponent("front.mov")
