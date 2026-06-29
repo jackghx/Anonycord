@@ -47,6 +47,7 @@ struct SettingsView: View {
         _volumeButtonTrigger = State(initialValue: AppSettings().volumeButtonTrigger)
         _autoStart = State(initialValue: AppSettings().autoStart)
         _blackoutMode = State(initialValue: AppSettings().blackoutMode)
+        _recordingDestination = State(initialValue: AppSettings().recordingDestination)
     }
 
     var body: some View {
