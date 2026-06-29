@@ -20,11 +20,19 @@ class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
             return
         }
         
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else {
-                print("Not authorized to save photo")
-                return
+        PHPhotoLibrary.shared().performChanges({
+            let creationRequest = PHAssetCreationRequest.forAsset()
+            creationRequest.addResource(with: .photo, data: photoData, options: nil)
+        }, completionHandler: { success, error in
+            if let error = error {
+                print("Error saving photo to library: \(error.localizedDescription)")
+            } else {
+                print("Photo saved to library")
+                if AppSettings().crashAtEnd {
+                    exitWithStyle()
+                }
             }
+        })
             
             PHPhotoLibrary.shared().performChanges({
                 let creationRequest = PHAssetCreationRequest.forAsset()
