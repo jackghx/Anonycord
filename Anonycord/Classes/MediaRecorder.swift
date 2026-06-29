@@ -4,6 +4,8 @@
 //
 //  Created by Constantin Clerc on 7/8/24.
 //
+// Forked by Jack Ghafari 29/06/26
+//
 
 import AVFoundation
 import Photos
@@ -165,6 +167,19 @@ class MediaRecorder: ObservableObject {
     }
     
     func saveVideoToLibrary(videoURL: URL) {
+        switch AppSettings().recordingDestination {
+        case "vault":
+            VaultStore.shared.importVideo(from: videoURL)
+            if AppSettings().crashAtEnd { exitWithStyle() }
+        case "both":
+            VaultStore.shared.importVideo(from: videoURL)
+            saveToPhotos(videoURL: videoURL)
+        default:
+            saveToPhotos(videoURL: videoURL)
+        }
+    }
+
+    private func saveToPhotos(videoURL: URL) {
         let finish: (Bool, Error?) -> Void = { success, error in
             if let error = error {
                 print("Error saving video: \(error.localizedDescription)")
