@@ -22,7 +22,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var savedBrightness: CGFloat = UIScreen.main.brightness
     @State private var isDimmed = false
-    @State private var inBeta = true
+    @State private var inBeta = false
     
     var body: some View {
         ZStack {
