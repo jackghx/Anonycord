@@ -34,4 +34,5 @@ class AppSettings: ObservableObject {
     @AppStorage("autoStartDelay") var autoStartDelay: Int = 3
     @AppStorage("blackoutMode") var blackoutMode: Bool = false
     @AppStorage("sortToAlbum") var sortToAlbum: Bool = true
+    @AppStorage("recordingDestination") var recordingDestination: String = "library"
 }
