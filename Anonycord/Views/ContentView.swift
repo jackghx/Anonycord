@@ -23,7 +23,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var savedBrightness: CGFloat = UIScreen.main.brightness
     @State private var isDimmed = false
-    @State private var inBeta = true
+    @State private var inBeta = false
     
     var body: some View {
         ZStack {
@@ -57,7 +57,7 @@ struct ContentView: View {
                             .font(.footnote)
                             .foregroundColor(.secondary)
                     } else {
-                        Text("v\(Bundle.main.releaseVersionNumber ?? "0.0") - by c22dev, forked by Jack Ghafari")
+                        Text("v\(Bundle.main.releaseVersionNumber ?? "0.0") Anonycord - by c22dev, forked by Jack Ghafari")
                             .font(.footnote)
                             .foregroundColor(.secondary)
                     }
