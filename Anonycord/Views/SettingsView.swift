@@ -26,6 +26,8 @@ struct SettingsView: View {
     @State private var exitAtEnd: Bool
     @State private var infoAtBttm: Bool
     @State private var hideAll: Bool
+    @State private var recordingDestination: String
+    @State private var showingVault = false
     
     @ObservedObject var mediaRecorder: MediaRecorder
 
