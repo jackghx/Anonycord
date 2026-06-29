@@ -18,11 +18,12 @@ struct ContentView: View {
     @State private var showingFilePicker = false
     @State private var boxSize: CGFloat = UIScreen.main.bounds.width - 60
     @StateObject private var mediaRecorder = MediaRecorder()
+    @StateObject private var dualRecorder = DualCameraRecorder()
     @StateObject private var volumeListener = VolumeButtonListener()
     @Environment(\.scenePhase) private var scenePhase
     @State private var savedBrightness: CGFloat = UIScreen.main.brightness
     @State private var isDimmed = false
-    @State private var inBeta = false
+    @State private var inBeta = true
     
     var body: some View {
         ZStack {
@@ -163,7 +164,11 @@ struct ContentView: View {
         
     private func setup() {
             mediaRecorder.requestPermissions()
-            mediaRecorder.setupCaptureSession()
+            if appSettings.dualCapture && DualCameraRecorder.isSupported {
+                dualRecorder.setup()
+            } else {
+                mediaRecorder.setupCaptureSession()
+            }
     
             if appSettings.volumeButtonTrigger {
                 volumeListener.onPress = {
@@ -201,6 +206,10 @@ struct ContentView: View {
         }
     
         private func toggleVideoRecording() {
+            if appSettings.dualCapture && DualCameraRecorder.isSupported {
+                toggleDualRecording()
+                return
+            }
             if isRecordingVideo {
                 mediaRecorder.stopVideoRecording()
                 UIApplication.shared.isIdleTimerDisabled = false
@@ -220,7 +229,28 @@ struct ContentView: View {
             isRecordingVideo.toggle()
         }
 
+        private func toggleDualRecording() {
+            if isRecordingVideo {
+                UIApplication.shared.isIdleTimerDisabled = false
+                if appSettings.hapticFeedback { Haptic.recordingStopped() }
+                dualRecorder.stopRecording { urls in
+                    for url in urls {
+                        mediaRecorder.saveVideoToLibrary(videoURL: url)
+                    }
+                    isRecordingVideo = false
+                }
+            } else {
+                UIApplication.shared.isIdleTimerDisabled = true
+                if appSettings.hapticFeedback { Haptic.recordingStarted() }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                    dualRecorder.startRecording()
+                }
+            }
+            isRecordingVideo.toggle()
+        }
+
         private func toggleAudioRecording() {
+                if appSettings.dualCapture { return }
                 if isRecordingAudio {
                     UIApplication.shared.isIdleTimerDisabled = false
                     mediaRecorder.stopAudioRecording()
@@ -234,6 +264,7 @@ struct ContentView: View {
             }
         
             private func takePhoto() {
+                if appSettings.dualCapture { return }
                 mediaRecorder.takePhoto()
             }
         }
