@@ -155,8 +155,8 @@ struct ContentView: View {
         .onChange(of: scenePhase) { phase in
             switch phase {
             case .active: dimForBlackout()
-            case .background: restoreBrightness()
-            default: break
+            case .inactive, .background: restoreBrightness()
+            @unknown default: break
             }
         }
     }
