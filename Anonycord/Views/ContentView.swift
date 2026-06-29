@@ -265,6 +265,7 @@ struct ContentView: View {
         
             private func takePhoto() {
                 if appSettings.dualCapture { return }
+                if appSettings.hapticFeedback { Haptic.recordingStarted() }
                 mediaRecorder.takePhoto()
             }
         }
