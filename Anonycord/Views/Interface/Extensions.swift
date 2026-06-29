@@ -122,18 +122,18 @@ extension View {
 let impact = UIImpactFeedbackGenerator(style: .light)
 
 enum Haptic {
-        static func recordingStarted() {
-                    let gen = UIImpactFeedbackGenerator(style: .heavy)
-                    gen.prepare()
-                    gen.impactOccurred()
-        }
+    private static let generator = UIImpactFeedbackGenerator(style: .heavy)
 
-        static func recordingStopped() {
-                    let gen = UIImpactFeedbackGenerator(style: .heavy)
-                    gen.prepare()
-                    gen.impactOccurred()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.14) {
-                                    gen.impactOccurred()
-                    }
+    static func recordingStarted() {
+        generator.prepare()
+        generator.impactOccurred(intensity: 1.0)
+    }
+
+    static func recordingStopped() {
+        generator.prepare()
+        generator.impactOccurred(intensity: 1.0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.14) {
+            generator.impactOccurred(intensity: 1.0)
         }
+    }
 }
