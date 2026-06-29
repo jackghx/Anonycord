@@ -160,7 +160,7 @@ struct SettingsView: View {
                 }
 
                 Section(header: Label("Dual Capture", systemImage: "arrow.triangle.2.circlepath.camera"),
-                        footer: Text("Records the front and back cameras at the same time, saving two separate clips per take. Requires iPhone XS, XR, or newer. While dual capture is on, photo capture and audio-only recording are unavailable.")) {
+                        footer: Text("Records the front and back cameras at the same time, saving two separate clips per take. Requires iPhone XS, XR, or newer. Toggling this takes effect after you restart the app. While dual capture is on, photo capture and audio-only recording are unavailable.")) {
                     Toggle("Front + Back Capture", isOn: $dualCapture)
                         .onChange(of: dualCapture) { newValue in appSettings.dualCapture = newValue }
                 }
