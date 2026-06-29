@@ -51,7 +51,7 @@ It is useful anywhere a lit-up camera screen gets in the way: filming in a dark 
 
 ## Installation
 
-There is no App Store build. You install the unsigned IPA with a sideloading tool such as AltStore, Sidestore, Sideloady, or TrollStore.
+You install the unsigned IPA with a sideloading tool such as AltStore, Sidestore, Sideloady, or TrollStore.
 
 1. Download `Anonycord.ipa` from the Assets of this release.
 2. Open or import it in your sideloading tool, which signs the app with your own account.
