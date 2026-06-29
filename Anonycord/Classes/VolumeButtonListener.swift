@@ -40,6 +40,7 @@ class VolumeButtonListener: NSObject, ObservableObject {
                 self.onPress?()
             }
         }
+    }
 
     func stopListening() {
         observation?.invalidate()
