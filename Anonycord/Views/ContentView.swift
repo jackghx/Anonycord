@@ -39,7 +39,16 @@ struct ContentView: View {
                         }
                     }
             } else {
-                Color.black.edgesIgnoringSafeArea(.all)
+                UIApplication.shared.isIdleTimerDisabled = true
+                if appSettings.hapticFeedback { Haptic.recordingStarted() }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                    mediaRecorder.startVideoRecording { url in
+                        if let url = url {
+                            mediaRecorder.saveVideoToLibrary(videoURL: url)
+                        }
+                        isRecordingVideo = false
+                    }
+                }
             }
 
             VStack {
