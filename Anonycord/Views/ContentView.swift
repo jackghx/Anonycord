@@ -4,6 +4,8 @@
 //
 //  Created by Constantin Clerc on 7/8/24.
 //
+// Forked by Jack Ghafari on 29/06/26
+//
 
 import SwiftUI
 
@@ -17,6 +19,9 @@ struct ContentView: View {
     @State private var boxSize: CGFloat = UIScreen.main.bounds.width - 60
     @StateObject private var mediaRecorder = MediaRecorder()
     @StateObject private var volumeListener = VolumeButtonListener()
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var savedBrightness: CGFloat = UIScreen.main.brightness
+    @State private var isDimmed = false
     @State private var inBeta = true
     
     var body: some View {
@@ -141,6 +146,19 @@ struct ContentView: View {
         .onAppear(perform: setup)
         .statusBarHidden(appSettings.blackoutMode)
         .hideSystemOverlays(appSettings.blackoutMode)
+        .onChange(of: appSettings.blackoutMode) { newValue in
+            if newValue { dimForBlackout() } else { restoreBrightness() }
+        }
+        .onChange(of: showingSettings) { isOpen in
+            if isOpen { restoreBrightness() } else { dimForBlackout() }
+        }
+        .onChange(of: scenePhase) { phase in
+            switch phase {
+            case .active: dimForBlackout()
+            case .background: restoreBrightness()
+            default: break
+            }
+        }
     }
         
     private func setup() {
@@ -161,6 +179,25 @@ struct ContentView: View {
                     }
                 }
             }
+
+            if appSettings.blackoutMode {
+                dimForBlackout()
+            }
+        }
+
+        private func dimForBlackout() {
+            guard appSettings.blackoutMode, !showingSettings else { return }
+            if !isDimmed {
+                savedBrightness = UIScreen.main.brightness
+                isDimmed = true
+            }
+            UIScreen.main.brightness = 0.0
+        }
+
+        private func restoreBrightness() {
+            guard isDimmed else { return }
+            UIScreen.main.brightness = savedBrightness
+            isDimmed = false
         }
     
         private func toggleVideoRecording() {
