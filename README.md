@@ -1,6 +1,10 @@
 <div align="center">
 
+<img src="Anonycord/Assets.xcassets/AppIcon.appiconset/appicon.png" width="120" alt="Anonycord icon">
+
 # Anonycord
+
+
 
 **A discreet iOS video recorder that captures without a screen preview.**
 
