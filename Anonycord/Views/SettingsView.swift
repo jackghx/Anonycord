@@ -26,6 +26,7 @@ struct SettingsView: View {
     @State private var exitAtEnd: Bool
     @State private var infoAtBttm: Bool
     @State private var hideAll: Bool
+    @State private var dualCapture: Bool
     @State private var recordingDestination: String
     @State private var showingVault = false
     
@@ -43,6 +44,7 @@ struct SettingsView: View {
         _exitAtEnd = State(initialValue: AppSettings().crashAtEnd)
         _infoAtBttm = State(initialValue: AppSettings().showSettingsAtBttm)
         _hideAll = State(initialValue: AppSettings().hideAll)
+        _dualCapture = State(initialValue: AppSettings().dualCapture)
         _hapticFeedback = State(initialValue: AppSettings().hapticFeedback)
         _volumeButtonTrigger = State(initialValue: AppSettings().volumeButtonTrigger)
         _autoStart = State(initialValue: AppSettings().autoStart)
@@ -155,6 +157,12 @@ struct SettingsView: View {
                         .onChange(of: autoStart) { newValue in appSettings.autoStart = newValue }
                     Toggle("Blackout (tap anywhere to record)", isOn: $blackoutMode)
                         .onChange(of: blackoutMode) { newValue in appSettings.blackoutMode = newValue }
+                }
+
+                Section(header: Label("Dual Capture", systemImage: "arrow.triangle.2.circlepath.camera"),
+                        footer: Text("Records the front and back cameras at the same time, saving two separate clips per take. Newer devices only. While on, photo and audio-only recording are unavailable, and the recording-start buzz may not fire because the microphone stays live.")) {
+                    Toggle("Front + Back Capture", isOn: $dualCapture)
+                        .onChange(of: dualCapture) { newValue in appSettings.dualCapture = newValue }
                 }
 
                 Section(header: Label("Recordings", systemImage: "tray.full"),
