@@ -51,15 +51,15 @@ It is useful anywhere a lit-up camera screen gets in the way: filming in a dark 
 
 ## Installation
 
-There is no App Store build. You install an unsigned IPA using a sideloading tool such as AltStore, SideStore, or TrollStore.
+There is no App Store build. You install the unsigned IPA with a sideloading tool such as AltStore, Sidestore, Sideloady, or TrollStore.
 
-You do not need a Mac to get the IPA. Every push to `main` builds one on GitHub's runners:
+1. Download `Anonycord.ipa` from the Assets of this release.
+2. Open or import it in your sideloading tool, which signs the app with your own account.
+3. Install to your device.
 
-1. Open the [Actions](https://github.com/jackghx/Anonycord/actions) tab and select the latest successful run.
-2. Download `Anonycord-unsigned-ipa` from the Artifacts section at the bottom. It arrives as a zip, so unzip it to get the `.ipa`.
-3. Sign and install the IPA on your device with your sideloading tool.
+Camera, microphone, photo library, and Face ID permissions are requested on first use. iOS 15 or later.
 
-Tagged releases also carry a prebuilt IPA on the [Releases](https://github.com/jackghx/Anonycord/releases) page. Camera, microphone, photo library, and Face ID permissions are requested on first use.
+Building it yourself from `main`, or pulling the IPA from a CI run instead of a release, is covered in [Building from Source](#building-from-source) and [Releases and CI](#releases-and-ci) below.
 
 ## Building from Source
 
