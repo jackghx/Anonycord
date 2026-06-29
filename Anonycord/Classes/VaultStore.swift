@@ -23,7 +23,7 @@ final class VaultStore {
     func importVideo(from sourceURL: URL) -> URL? {
         try? FileManager.default.createDirectory(at: vaultURL, withIntermediateDirectories: true)
         let stamp = Self.formatter.string(from: Date())
-        let dest = vaultURL.appendingPathComponent("AC_\(stamp).mov")
+        let dest = vaultURL.appendingPathComponent("AC_\(stamp)_\(UUID().uuidString.prefix(4)).mov")
         do {
             try FileManager.default.copyItem(at: sourceURL, to: dest)
             return dest
