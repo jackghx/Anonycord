@@ -156,6 +156,20 @@ struct SettingsView: View {
                     Toggle("Blackout (tap anywhere to record)", isOn: $blackoutMode)
                         .onChange(of: blackoutMode) { newValue in appSettings.blackoutMode = newValue }
                 }
+
+                Section(header: Label("Recordings", systemImage: "tray.full"),
+                        footer: Text("Library saves to Photos (and the Anonycord album if sorting is on). Vault keeps recordings private inside the app, hidden from Photos and the Files app, opened with Face ID. Both saves to Photos and keeps a private copy.")) {
+                    Picker("Save To", selection: $recordingDestination) {
+                        Text("Library").tag("library")
+                        Text("Vault").tag("vault")
+                        Text("Both").tag("both")
+                    }
+                    .pickerStyle(.menu)
+                    .onChange(of: recordingDestination) { newValue in
+                        appSettings.recordingDestination = newValue
+                    }
+                    Button("Open Vault") { showingVault = true }
+                }                
                 
                 Section(header: Label("Links", systemImage: "link"), footer: Text("A few links to my socials to contact me if you need help (Forked from c22dev).")) {
                     Button("Github") {
