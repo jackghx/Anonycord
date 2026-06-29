@@ -52,12 +52,12 @@ struct ContentView: View {
                         .font(.system(size: UIFont.preferredFont(forTextStyle: .title2).pointSize, weight: .bold))
                         .transition(.scale)
                     if inBeta {
-                        Text("v\(Bundle.main.releaseVersionNumber ?? "0.0") Beta \(Bundle.main.buildVersionNumber ?? "0") - by c22dev")
+                        Text("v\(Bundle.main.releaseVersionNumber ?? "0.0") Beta \(Bundle.main.buildVersionNumber ?? "0") - by c22dev, forked by Jack Ghafari")
                             .font(.footnote)
                             .foregroundColor(.secondary)
                     } else {
-                        Text("v\(Bundle.main.releaseVersionNumber ?? "0.0") - by c22dev")
-                            .font(.footnote)
+                        Text("v\(Bundle.main.releaseVersionNumber ?? "0.0") - by c22dev, forked by Jack Ghafari")
+                            .font(.footnote)F
                             .foregroundColor(.secondary)
                     }
                 }
