@@ -165,9 +165,7 @@ class MediaRecorder: ObservableObject {
     }
     
     func saveVideoToLibrary(videoURL: URL) {
-        PHPhotoLibrary.shared().performChanges({
-            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL)
-        }, completionHandler: { success, error in
+        let finish: (Bool, Error?) -> Void = { success, error in
             if let error = error {
                 print("Error saving video: \(error.localizedDescription)")
             } else {
@@ -176,7 +174,25 @@ class MediaRecorder: ObservableObject {
                     exitWithStyle()
                 }
             }
-        })
+        }
+
+        let performSave: (PHAssetCollection?) -> Void = { collection in
+            PHPhotoLibrary.shared().performChanges({
+                let req = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoURL)
+                if let collection = collection, let placeholder = req?.placeholderForCreatedAsset {
+                    let albumChange = PHAssetCollectionChangeRequest(for: collection)
+                    albumChange?.addAssets([placeholder] as NSArray)
+                }
+            }, completionHandler: finish)
+        }
+
+        if AppSettings().sortToAlbum {
+            PhotoAlbum.ensureCollection { collection in
+                performSave(collection)
+            }
+        } else {
+            performSave(nil)
+        }
     }
     
     private func deleteOldVideos() {
@@ -212,5 +228,29 @@ class MediaRecorder: ObservableObject {
             return ultraWideCamera.isConnected
         }
         return false
+    }
+}
+
+
+enum PhotoAlbum {
+    static let albumName = "Anonycord"
+
+    static func fetchCollection() -> PHAssetCollection? {
+        let options = PHFetchOptions()
+        options.predicate = NSPredicate(format: "title = %@", albumName)
+        let result = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
+        return result.firstObject
+    }
+
+    static func ensureCollection(completion: @escaping (PHAssetCollection?) -> Void) {
+        if let existing = fetchCollection() {
+            completion(existing)
+            return
+        }
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumName)
+        }, completionHandler: { success, _ in
+            completion(success ? fetchCollection() : nil)
+        })
     }
 }
