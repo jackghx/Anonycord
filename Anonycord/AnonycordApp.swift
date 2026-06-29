@@ -35,4 +35,5 @@ class AppSettings: ObservableObject {
     @AppStorage("blackoutMode") var blackoutMode: Bool = false
     @AppStorage("sortToAlbum") var sortToAlbum: Bool = true
     @AppStorage("recordingDestination") var recordingDestination: String = "library"
+    @AppStorage("dualCapture") var dualCapture: Bool = false
 }
