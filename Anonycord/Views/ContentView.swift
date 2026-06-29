@@ -139,6 +139,8 @@ struct ContentView: View {
             
         }
         .onAppear(perform: setup)
+        .statusBarHidden(appSettings.blackoutMode)
+        .hideSystemOverlays(appSettings.blackoutMode)
     }
         
     private func setup() {
