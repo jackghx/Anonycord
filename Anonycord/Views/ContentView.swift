@@ -57,7 +57,7 @@ struct ContentView: View {
                             .foregroundColor(.secondary)
                     } else {
                         Text("v\(Bundle.main.releaseVersionNumber ?? "0.0") - by c22dev, forked by Jack Ghafari")
-                            .font(.footnote)F
+                            .font(.footnote)
                             .foregroundColor(.secondary)
                     }
                 }
