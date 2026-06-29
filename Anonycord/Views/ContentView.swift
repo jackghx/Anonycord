@@ -39,16 +39,7 @@ struct ContentView: View {
                         }
                     }
             } else {
-                UIApplication.shared.isIdleTimerDisabled = true
-                if appSettings.hapticFeedback { Haptic.recordingStarted() }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-                    mediaRecorder.startVideoRecording { url in
-                        if let url = url {
-                            mediaRecorder.saveVideoToLibrary(videoURL: url)
-                        }
-                        isRecordingVideo = false
-                    }
-                }
+                Color.black.edgesIgnoringSafeArea(.all)
             }
 
             VStack {
@@ -217,11 +208,13 @@ struct ContentView: View {
             } else {
                 UIApplication.shared.isIdleTimerDisabled = true
                 if appSettings.hapticFeedback { Haptic.recordingStarted() }
-                mediaRecorder.startVideoRecording { url in
-                    if let url = url {
-                        mediaRecorder.saveVideoToLibrary(videoURL: url)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                    mediaRecorder.startVideoRecording { url in
+                        if let url = url {
+                            mediaRecorder.saveVideoToLibrary(videoURL: url)
+                        }
+                        isRecordingVideo = false
                     }
-                    isRecordingVideo = false
                 }
             }
             isRecordingVideo.toggle()
