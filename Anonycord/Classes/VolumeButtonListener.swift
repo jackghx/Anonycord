@@ -37,6 +37,8 @@ class VolumeButtonListener: NSObject, ObservableObject {
             // reset toward the middle so repeated presses keep registering
             self.ignoreNextChange = true
             self.setSystemVolume(self.baseline)
+            DispatchQueue.main.async {
+                self.onPress?()
         }
     }
 
