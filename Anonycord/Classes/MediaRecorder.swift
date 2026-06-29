@@ -17,6 +17,7 @@ class MediaRecorder: ObservableObject {
     private var videoOutput: AVCaptureMovieFileOutput!
     private var captureSession: AVCaptureSession!
     private var photoOutput: AVCapturePhotoOutput!
+    private var audioDeviceInput: AVCaptureDeviceInput?
     
     private let videoRecordingDelegate = VideoRecordingDelegate()
     private let photoCaptureDelegate = PhotoCaptureDelegate()
@@ -44,7 +45,6 @@ class MediaRecorder: ObservableObject {
         }
         
         setupVideoInput()
-        setupAudioInput()
         setupOutputs()
         
         DispatchQueue.global(qos: .userInitiated).async {
@@ -102,11 +102,24 @@ class MediaRecorder: ObservableObject {
         }
     }
     
-    private func setupAudioInput() {
-        guard let audioCaptureDevice = AVCaptureDevice.default(for: .audio),
-              let audioInput = try? AVCaptureDeviceInput(device: audioCaptureDevice),
-              captureSession.canAddInput(audioInput) else { return }
-        captureSession.addInput(audioInput)
+    private func addAudioInput() {
+        guard audioDeviceInput == nil,
+              let audioCaptureDevice = AVCaptureDevice.default(for: .audio),
+              let audioInput = try? AVCaptureDeviceInput(device: audioCaptureDevice) else { return }
+        captureSession.beginConfiguration()
+        if captureSession.canAddInput(audioInput) {
+            captureSession.addInput(audioInput)
+            audioDeviceInput = audioInput
+        }
+        captureSession.commitConfiguration()
+    }
+
+    private func removeAudioInput() {
+        guard let audioInput = audioDeviceInput else { return }
+        captureSession.beginConfiguration()
+        captureSession.removeInput(audioInput)
+        captureSession.commitConfiguration()
+        audioDeviceInput = nil
     }
     
     private func setupOutputs() {
@@ -123,7 +136,11 @@ class MediaRecorder: ObservableObject {
     
     func startVideoRecording(completion: @escaping (URL?) -> Void) {
         deleteOldVideos()
-        videoRecordingDelegate.onFinish = completion
+        addAudioInput()
+        videoRecordingDelegate.onFinish = { [weak self] url in
+            self?.removeAudioInput()
+            completion(url)
+        }
         let videoRecordingURL = getDocumentsDirectory().appendingPathComponent("video.mov")
         videoOutput.startRecording(to: videoRecordingURL, recordingDelegate: videoRecordingDelegate)
     }
