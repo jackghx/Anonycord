@@ -9,7 +9,6 @@
 **A discreet iOS video recorder that captures without a screen preview.**
 
 [![Build](https://github.com/jackghx/Anonycord/actions/workflows/build.yml/badge.svg)](https://github.com/jackghx/Anonycord/actions/workflows/build.yml)
-[![Release](https://img.shields.io/github/v/release/jackghx/Anonycord?include_prereleases&sort=semver)](https://github.com/jackghx/Anonycord/releases)
 [![License](https://img.shields.io/github/license/jackghx/Anonycord)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-iOS%2015%2B-lightgrey)
 ![Swift](https://img.shields.io/badge/Swift-5-orange?logo=swift&logoColor=white)
