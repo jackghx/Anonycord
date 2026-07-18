@@ -20,7 +20,7 @@
 
 Anonycord records video while the screen stays black. There is no live preview, no visible camera interface, and no bright display giving it away. You tap to start and stop, and recordings go to the photo library, a private Face ID vault, or both.
 
-It is useful anywhere a lit-up camera screen gets in the way: filming in a dark room without the glow, lectures and talks, candid and street footage, personal documentation, and hands-free or eyes-free recording where you can't look at the screen. This is a fork of [c22dev/Anonycord](https://github.com/c22dev/Anonycord) with an expanded feature set.
+It is useful anywhere a lit-up camera screen gets in the way. This is primarily for journalists, but can also be used generally for filming in a dark room without the glow, lectures and talks, candid and street footage, personal documentation, and hands-free or eyes-free recording where you can't look at the screen. This is a fork of [c22dev/Anonycord](https://github.com/c22dev/Anonycord) with an expanded feature set.
 
 ## Table of Contents
 
