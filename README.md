@@ -119,11 +119,6 @@ Place it on the home screen or the Action Button. A single tap reduces the white
 - Face ID requires the `NSFaceIDUsageDescription` key, which is set in the project build settings. Without it, opening the vault would crash.
 - Blackout floors the system brightness and restores it when you leave blackout or background the app, so the device is never left dark.
 
-## Roadmap
-
-- Second-device remote control, so an operator can start, stop, or monitor recording from a paired phone over a local peer-to-peer connection.
-- Front and back simultaneous capture.
-- Optional recording time limit and auto-stop.
 
 ## Credits
 
